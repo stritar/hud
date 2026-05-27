@@ -87,8 +87,9 @@ You only need to solder one 10-pin header strip onto the BNO055 — about 10 joi
   - Rosin smoke is mildly irritating, not dangerous in 5-minute sessions, but don't inhale it directly. A USB desk fan blowing the smoke *away from you* costs nothing extra.
   - Optional proper fume extractor: Amazon.de search `Lötrauchabsaugung USB`, ~€15.
 
-- [ ] **Heat-resistant work surface** — €0–8
+- [x] **Heat-resistant work surface** — €0–8
   - A silicone soldering mat (`Lötmatte Silikon`, ~€8) protects the desk. A ceramic tile from any hardware store (€2) works too. **Do not solder directly on wood or plastic.**
+  - **Picked**: MMOBIEL Silicone Repair and Soldering Mat, 45×30 cm, heat resistant to 500 °C (Amazon.de, €14.99). Larger than strictly needed but doubles as a general workbench mat.
 
 **Estimated soldering kit total: €40–80** depending on iron choice.
 
