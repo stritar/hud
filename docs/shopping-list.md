@@ -25,10 +25,11 @@ Budget target: **€60–100**. Actual total below is roughly **€70–85** dep
   - **Don't accidentally buy BMP180** — older, less sensitive, larger footprint
   - Berlin fallback: berrybase.de
 
-- [ ] **2.42" SSD1309 OLED, 128×64, I²C, white** — €15–22
-  - Amazon.de search: `2.42 Zoll OLED I2C 128x64 weiß` or `SSD1309 OLED 2.42`
+- [ ] **2.42" SSD1309 OLED, 128×64, I²C, green** — €15–22
+  - Amazon.de search: `2.42 Zoll OLED I2C 128x64 grün` or `SSD1309 OLED 2.42 IIC`
   - **Watch out — critical**: many 2.42" OLED listings are **SPI**, which uses 4 wires instead of 2. Confirm the title or photos say "I²C" (or "IIC"). If only SPI is available, that works too but the wiring guide needs to change.
-  - Pixel color: white reads best through the combiner. Yellow also fine. Avoid blue (poor contrast with green gel filter).
+  - Pixel color: **green is most authentic** — the real F-14 HUD used a green phosphor CRT, so a green OLED gets you closer to the look than white and removes the need for a separate gel filter. White and yellow are fine fallbacks if green is out of stock. Avoid blue (wrong era, wrong feel).
+  - **Picked**: Hailege 2.42" SSD1309 IIC Green (Amazon.de, €17.99). Address jumper on back is labeled `0x78`/`0x7A` (8-bit) = `0x3C`/`0x3D` in CircuitPython.
   - Berlin fallback: eckstein-shop.de
 
 ## Connectors and breadboard
@@ -51,9 +52,9 @@ Budget target: **€60–100**. Actual total below is roughly **€70–85** dep
   - **Berlin local — recommended**: [Modulor at Moritzplatz](https://www.modulor.de) sells offcuts by weight; ~€2 for a small piece. Smoother edges and you can choose the exact size.
   - Alternative: a microscope slide (Objektträger) works at a pinch — sold cheaply at any biology supply or even Müller.
 
-- [ ] **Optional — green gel filter** — €3–6
+- [ ] **Optional — green gel filter** — €3–6 *(skip if you picked the green OLED above)*
   - Amazon.de search: `Farbfolie grün Fotografie` or `Rosco gel green`
-  - Cut a 30×30 mm square, lay it over the OLED for that phosphor-green F-14 look
+  - Only needed if your OLED is white or yellow — cut a 30×30 mm square and lay it over the panel for that phosphor-green F-14 look.
   - **Berlin local — recommended**: Foto Brenner or Foto Lübeck in Mitte sell single sheets
 
 ## Soldering supplies
