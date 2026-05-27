@@ -24,6 +24,33 @@ WINDOW_W, WINDOW_H = WIDTH * SCALE, HEIGHT * SCALE
 FG = (0, 255, 0)
 BG = (0, 0, 0)
 
+BLOOM_STRENGTH = 0.7
+VIGNETTE_FALLOFF = 0.85
+VIGNETTE_FLOOR = 0.25
+
+
+def make_vignette(window_w, window_h, small=48):
+    h = int(small * window_h / window_w)
+    surf = pygame.Surface((small, h))
+    cx, cy = (small - 1) / 2, (h - 1) / 2
+    max_d = (cx * cx + cy * cy) ** 0.5
+    for y in range(h):
+        for x in range(small):
+            d = ((x - cx) ** 2 + (y - cy) ** 2) ** 0.5 / max_d
+            b = int(255 * max(VIGNETTE_FLOOR, 1.0 - d * VIGNETTE_FALLOFF))
+            surf.set_at((x, y), (b, b, b))
+    return pygame.transform.smoothscale(surf, (window_w, window_h))
+
+
+def apply_crt(canvas, vignette):
+    sharp = pygame.transform.smoothscale(canvas, (WINDOW_W, WINDOW_H))
+    tiny = pygame.transform.smoothscale(canvas, (WIDTH // 2, HEIGHT // 2))
+    bloom = pygame.transform.smoothscale(tiny, (WINDOW_W, WINDOW_H))
+    bloom.set_alpha(int(255 * BLOOM_STRENGTH))
+    sharp.blit(bloom, (0, 0), special_flags=pygame.BLEND_ADD)
+    sharp.blit(vignette, (0, 0), special_flags=pygame.BLEND_MULT)
+    return sharp
+
 
 class PygameCanvas:
     def __init__(self, surface, font):
@@ -68,6 +95,7 @@ def main():
     window = pygame.display.set_mode((WINDOW_W, WINDOW_H))
     canvas_surface = pygame.Surface((WIDTH, HEIGHT))
     font = pygame.font.SysFont("Courier", 10, bold=True)
+    vignette = make_vignette(WINDOW_W, WINDOW_H)
 
     state = HudState(pitch=0.0, roll=0.0, heading=90.0,
                      airspeed=320, altitude=5000, g_force=1.0)
@@ -112,8 +140,7 @@ def main():
         canvas_surface.fill(BG)
         render(PygameCanvas(canvas_surface, font), state)
 
-        scaled = pygame.transform.scale(canvas_surface, (WINDOW_W, WINDOW_H))
-        window.blit(scaled, (0, 0))
+        window.blit(apply_crt(canvas_surface, vignette), (0, 0))
         pygame.display.flip()
         clock.tick(30)
 
