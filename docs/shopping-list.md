@@ -15,8 +15,10 @@ Budget target: **€60–100**. Actual total below is roughly **€70–85** dep
   - Amazon.de search: `BNO055 9DOF Modul` or `BNO055 GY-955`
   - **Watch out**: some listings ship the cheaper MPU-9250 with a misleading title — confirm the chip name "BNO055" appears in product photos
   - **Watch out**: clone modules often have I²C address `0x29` instead of Adafruit's `0x28` — both work, just need to pass the right address in code
+  - **Headers not pre-soldered** on the Adafruit-original — the 10-pin male header strip ships loose in the bag. We're soldering it ourselves; see the **Soldering supplies** section below.
   - Berlin fallback: eckstein-shop.de, or berrybase.de
   - Adafruit-original part on Amazon.de runs ~€25; clones ~€15
+  - **Picked**: Minhe GY-BNO055 (Amazon.de, ~€13). Has on-board LDO so VIN tolerates 3–5 V; headers ship loose (we solder them). Verify chip markings on arrival before soldering.
 
 - [ ] **BMP280 barometric pressure breakout** — €4–8
   - Amazon.de search: `BMP280 Modul I2C` (AZ-Delivery sells a 3-pack ~€8)
@@ -54,6 +56,45 @@ Budget target: **€60–100**. Actual total below is roughly **€70–85** dep
   - Cut a 30×30 mm square, lay it over the OLED for that phosphor-green F-14 look
   - **Berlin local — recommended**: Foto Brenner or Foto Lübeck in Mitte sell single sheets
 
+## Soldering supplies
+
+You only need to solder one 10-pin header strip onto the BNO055 — about 10 joints, large pads, ~5 minutes of actual soldering once you're set up. But since this is your first time, get a temperature-controlled iron (not a fixed-temp €10 pencil) — it makes the difference between "easy" and "frustrating".
+
+- [ ] **Temperature-controlled soldering iron, ~60 W** — €25–45
+  - Amazon.de search: `Lötkolben Temperaturregelung 60W` — the **TS80P** or **Pinecil V2** are the enthusiast favorites (~€60, USB-C powered, lifetime tool); the cheaper option is an **AZ-Delivery / Tabiger station** at ~€25–35 which is fine for one-off jobs.
+  - **Avoid**: the €10 fixed-temperature "pencil" irons — they run too hot, burn pads, and make beginners think they're bad at soldering.
+  - Berlin fallback: [eckstein-shop.de](https://eckstein-shop.de) carries Pinecil; Conrad Berlin (Hauptbahnhof) has stations in stock.
+
+- [ ] **Lead-free solder wire, 0.8 mm or 1.0 mm, with rosin core** — €8–12
+  - Amazon.de search: `Lötzinn bleifrei 0.8mm Rosin` — a 100 g roll lasts years.
+  - **Why lead-free**: EU RoHS rules. Slightly harder to work with than leaded (higher melting point, less shiny joints) but a non-issue at this scale.
+  - **Watch out**: avoid "acid core" or plumbing solder — only **rosin/flux core electronics solder**.
+
+- [ ] **Helping hands / PCB holder** — €8–15
+  - Amazon.de search: `Helping Hands Lötstation` or `Lötzubehör dritte Hand`
+  - You need *something* to hold the board while both your hands are busy with iron and solder. A cheap clamp-with-alligator-clips works; a small vise is nicer.
+
+- [ ] **Solder wick (desoldering braid), 2 mm** — €4–6
+  - Amazon.de search: `Entlötlitze 2mm`
+  - For when you bridge two pins together (you will, at least once). Press the braid onto the bridge, heat with the iron, the excess solder wicks into the braid.
+
+- [ ] **Flux pen or paste** (optional but recommended for first-timer) — €5–8
+  - Amazon.de search: `Flussmittel Stift Elektronik` or `Lötflussmittel No-Clean`
+  - A dab of flux on each pad before soldering makes the solder flow cleanly. Strongly reduces "cold joint" frustration.
+
+- [ ] **Safety: work near an open window, or a small fume fan** — €0–15
+  - Rosin smoke is mildly irritating, not dangerous in 5-minute sessions, but don't inhale it directly. A USB desk fan blowing the smoke *away from you* costs nothing extra.
+  - Optional proper fume extractor: Amazon.de search `Lötrauchabsaugung USB`, ~€15.
+
+- [ ] **Heat-resistant work surface** — €0–8
+  - A silicone soldering mat (`Lötmatte Silikon`, ~€8) protects the desk. A ceramic tile from any hardware store (€2) works too. **Do not solder directly on wood or plastic.**
+
+**Estimated soldering kit total: €40–80** depending on iron choice.
+
+**Berlin walk-in alternative for soldering supplies**: [Eckstein Components](https://eckstein-shop.de) in Pankow stocks irons, solder, wick, and flux — one stop, you can ask the staff for advice.
+
+If this feels like too much spend or hassle for one header strip: any **Berlin makerspace** (Fab Lab Berlin in Kreuzberg, c-base in Mitte) lets you walk in and use their soldering stations for free or a small donation. That gets the BNO055 done in 10 minutes without owning any tools.
+
 ## Optional later additions (Phase F)
 
 - [ ] **Momentary tactile button** — €3 (pack of 10)
@@ -65,7 +106,7 @@ Budget target: **€60–100**. Actual total below is roughly **€70–85** dep
 
 ## Summary by supplier (typical happy path)
 
-**One Amazon.de order** (€55–75):
+**One Amazon.de order** (€95–155):
 - Raspberry Pi Pico 2 H
 - BNO055 module
 - BMP280 module
@@ -74,10 +115,12 @@ Budget target: **€60–100**. Actual total below is roughly **€70–85** dep
 - Jumper wire set
 - USB-C cable (if needed)
 - Momentary button pack (if adding now)
+- Soldering iron + solder + wick + helping hands + flux
 
 **Berlin walk-in** (€5–10):
 - Acrylic offcut from Modulor (Moritzplatz, U-Bahn U1/U8)
 - Green gel filter from a photo shop
+- (alternative) Soldering supplies from Eckstein Components in Pankow if you prefer asking a human
 
 ## When everything arrives
 
