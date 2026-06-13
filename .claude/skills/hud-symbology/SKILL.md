@@ -69,29 +69,33 @@ This skill defines what gets drawn on the HUD and how. Load it whenever editing 
 
 ## Function signatures (target for `simulator/symbology.py`)
 
-Keep these framework-agnostic — they take a `Canvas` protocol object with `set_pixel(x, y)` and `draw_line(x0, y0, x1, y1)` methods. This way the same functions work in Pygame (Phase A) and `displayio` (Phase E).
+Keep these framework-agnostic — they take a `Canvas` protocol object exposing `set_pixel(x, y)`,
+`draw_line(x0, y0, x1, y1, dashed=False)`, and `draw_text(x, y, text)`. Same functions then work in
+Pygame (Phase A) and `displayio` (Phase E). This block mirrors the live code in
+`simulator/symbology.py` — keep them in sync.
 
 ```python
+# state is a HudState (plain object): .pitch .roll .heading .airspeed .altitude .g_force
 def draw_boresight(canvas) -> None: ...
-def draw_pitch_ladder(canvas, pitch_deg: float, roll_deg: float) -> None: ...
-def draw_heading_tape(canvas, heading_deg: float) -> None: ...
-def draw_airspeed(canvas, knots: int) -> None: ...
-def draw_altitude(canvas, feet: int) -> None: ...
-def draw_velocity_vector(canvas, x_offset: int, y_offset: int) -> None: ...
-def draw_bank_indicator(canvas, roll_deg: float) -> None: ...
-def draw_g_meter(canvas, g: float) -> None: ...
+def draw_pitch_ladder(canvas, pitch, roll) -> None: ...
+def draw_heading_tape(canvas, heading) -> None: ...
+def draw_airspeed(canvas, knots) -> None: ...
+def draw_altitude(canvas, feet) -> None: ...
+def draw_bank_indicator(canvas, roll) -> None: ...
 
-def render_hud(canvas, state: dict) -> None:
-    """Compose every element. Call in this order so pipper draws last."""
-    draw_pitch_ladder(canvas, state["pitch"], state["roll"])
-    draw_heading_tape(canvas, state["heading"])
-    draw_airspeed(canvas, state["airspeed"])
-    draw_altitude(canvas, state["altitude"])
-    draw_velocity_vector(canvas, state["vv_x"], state["vv_y"])
-    draw_bank_indicator(canvas, state["roll"])
-    draw_g_meter(canvas, state["g"])
+def render(canvas, state) -> None:
+    """Compose every element. Pipper draws last so nothing occludes it."""
+    draw_pitch_ladder(canvas, state.pitch, state.roll)
+    draw_heading_tape(canvas, state.heading)
+    draw_airspeed(canvas, state.airspeed)
+    draw_altitude(canvas, state.altitude)
+    draw_bank_indicator(canvas, state.roll)
     draw_boresight(canvas)
 ```
+
+**Planned, not yet implemented** (described in the diagram above but absent from
+`simulator/symbology.py`): `draw_velocity_vector` (flight-path marker) and `draw_g_meter`. Add them
+to both the module and `render()` when building them out.
 
 ## What "feels like an F-14" and what doesn't
 

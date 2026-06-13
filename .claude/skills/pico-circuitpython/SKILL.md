@@ -46,7 +46,7 @@ Pins are GP0 (SDA) / GP1 (SCL) per [docs/wiring.md](../../docs/wiring.md). Do no
 import board, busio, displayio, time
 import adafruit_bno055, adafruit_bmp280
 import adafruit_displayio_ssd1306
-from hud_symbology import render_hud   # ported from simulator/symbology.py
+from hud_symbology import render, HudState   # ported from simulator/symbology.py
 
 displayio.release_displays()
 i2c = busio.I2C(scl=board.GP1, sda=board.GP0)
@@ -67,19 +67,17 @@ display.root_group = group
 while True:
     euler = imu.euler  # (heading, roll, pitch) in degrees; may be (None, None, None) briefly at boot
     if euler[0] is not None:
-        state = {
-            "heading": euler[0],
-            "roll": euler[1],
-            "pitch": euler[2],
-            "altitude": int((bmp.altitude - ref_alt) * 3.281),  # meters → feet
-            "airspeed": 320,   # placeholder until we add a real input
-            "vv_x": 0, "vv_y": 0,
-            "g": 1.0,
-        }
+        state = HudState(
+            heading=euler[0],
+            roll=euler[1],
+            pitch=euler[2],
+            altitude=int((bmp.altitude - ref_alt) * 3.281),  # meters → feet
+            airspeed=320,   # placeholder until we add a real input
+        )
         for y in range(64):
             for x in range(128):
                 bitmap[x, y] = 0
-        render_hud(BitmapCanvas(bitmap), state)
+        render(BitmapCanvas(bitmap), state)   # BitmapCanvas = thin displayio adapter exposing the Canvas protocol
     time.sleep(0.05)
 ```
 

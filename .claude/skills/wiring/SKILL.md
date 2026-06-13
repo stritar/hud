@@ -11,14 +11,7 @@ The full diagram lives in [docs/wiring.md](../../docs/wiring.md). This file stat
 
 ## Single I²C bus, four wires from the Pico
 
-All three peripherals (BNO055, BMP280, SSD1309 OLED) share **one** I²C bus on GP0/GP1. Never split them across buses.
-
-| Signal | Pico 2 GP | Physical pin |
-|---|---|---|
-| SDA | GP0 | 1 |
-| SCL | GP1 | 2 |
-| 3V3 (power) | 3V3(OUT) | 36 |
-| GND | GND | 3 (any GND works) |
+All three peripherals (BNO055, BMP280, SSD1309 OLED) share **one** I²C bus on GP0/GP1. Never split them across buses. Full pin map: [docs/wiring.md](../../docs/wiring.md).
 
 In code: `busio.I2C(scl=board.GP1, sda=board.GP0)`. **Always this order — `scl` first, `sda` second** is the CircuitPython signature.
 
@@ -32,16 +25,9 @@ In code: `busio.I2C(scl=board.GP1, sda=board.GP0)`. **Always this order — `scl
 
 All three breakouts include their own I²C pull-ups. **Do not add external pull-ups.** Multiple parallel pull-ups weaken the bus but at breadboard length it still works — just unnecessary.
 
-## I²C address map
+## I²C addresses
 
-| Device | Default | Alternative | Why alternative |
-|---|---|---|---|
-| BNO055 (Adafruit) | `0x28` | `0x29` | ADR pin pulled high |
-| BNO055 (clones) | `0x29` | `0x28` | ADR pulled low |
-| BMP280 | `0x76` | `0x77` | SDO pin pulled high |
-| SSD1309 OLED | `0x3C` | `0x3D` | jumper on rear |
-
-**Never assume an address — always run `i2c.scan()` first.** The clone-vs-original ambiguity has caused half the support requests in this project's history (anticipated).
+**Never assume an address — always run `i2c.scan()` first.** The clone-vs-original ambiguity (Adafruit BNO055 `0x28` vs clone `0x29`) has caused half the support requests in this project's history (anticipated). Full default/alternative address table: [docs/wiring.md](../../docs/wiring.md).
 
 ## Rule: bring up one device at a time
 
